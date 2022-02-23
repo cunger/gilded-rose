@@ -2,7 +2,7 @@
 
 Gilded Rose is a classic refactoring kata. 
 
-Initial version taken from Emily Bach:
+Initial version taken from Emily Bache:
 [github.com/emilybache/GildedRose-Refactoring-Kata](https://github.com/emilybache/GildedRose-Refactoring-Kata)
 
 ## Spec 
