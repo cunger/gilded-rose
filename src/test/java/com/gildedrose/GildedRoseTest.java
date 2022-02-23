@@ -32,13 +32,6 @@ class GildedRoseTest {
     }
 
     @Test
-    void sulfurasDoesNotNeedToBeSold() {
-        // Sulfuras has sellIn < 0, which is not updated.
-        // Does this need a test if Sulfuras starts with sellIn < 0 anyway?
-        // Rather test that Sulfuras always has sellIn < 0?
-    }
-
-    @Test
     void normalQualityDecreases() {
         GildedRoseExample example = new GildedRoseExample("+5 Dexterity Vest", 10, 20);
         int initialQuality = example.quality();
@@ -75,6 +68,18 @@ class GildedRoseTest {
         example.update();
 
         assertThat(example.quality()).isEqualTo(initialQuality);
+    }
+
+    @Test
+    void sulfurasDoesNotNeedToBeSold() {
+        GildedRoseExample example = new GildedRoseExample("Sulfuras, Hand of Ragnaros", 2, 5);
+        int initialSellIn = example.sellIn();
+
+        assertThat(initialSellIn).isLessThan(0);
+
+        example.update();
+
+        assertThat(example.sellIn()).isEqualTo(initialSellIn);
     }
 
     @Test

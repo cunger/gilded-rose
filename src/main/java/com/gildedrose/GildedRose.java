@@ -9,18 +9,26 @@ class GildedRose {
     Item[] items;
 
     public GildedRose(Item[] items) {
-        this.items = ensureQualityBoundaries(items);
+        ensureQualityBoundaries(items);
+        ensureSellInStatus(items);
+        this.items = items;
     }
 
-    private Item[] ensureQualityBoundaries(Item[] items) {
+    private void ensureQualityBoundaries(Item[] items) {
         for (int i = 0; i < items.length; i++) {
             Item item = items[i];
 
             if (item.quality < MIN_QUALITY) item.quality = MIN_QUALITY;
             if (item.quality > MAX_QUALITY) item.quality = MAX_QUALITY;
         }
+    }
 
-        return items;
+    private void ensureSellInStatus(Item[] items) {
+        for (int i = 0; i < items.length; i++) {
+            Item item = items[i];
+
+            if (isSulfuras(item)) item.sellIn = -1;
+        }
     }
 
     public void updateQuality() {
