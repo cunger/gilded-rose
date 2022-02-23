@@ -2,23 +2,24 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
+import static com.gildedrose.GildedRose.MAX_QUALITY;
+import static com.gildedrose.GildedRose.MIN_QUALITY;
 import static org.assertj.core.api.Assertions.*;
 
 class GildedRoseTest {
 
     @Test
-    void itemsWithNegativeQualityAreRejected() {
-        // initiation with item that has negative quality
-        // This is not yet part of the code.
-        // Todo: automatically cut off at boundary
+    void itemsWithNegativeQualityAreSetToMinQuality() {
+        GildedRoseExample example = new GildedRoseExample("Junk", 2, MIN_QUALITY - 1);
+
+        assertThat(example.quality()).isEqualTo(MIN_QUALITY);
     }
 
     @Test
-    void itemsWithLargerThanMaxQualityAreRejected() {
-        // initiation with item that has larger than max quality
-        // This is not yet part of the code.
-        // Todo: automatically cut off at boundary
-        // Todo: define max quality boundary as constant
+    void itemsWithTooHighQualityAreSetToMaxQuality() {
+        GildedRoseExample example = new GildedRoseExample("All-in-one problem solver", 2, MAX_QUALITY + 1);
+
+        assertThat(example.quality()).isEqualTo(MAX_QUALITY);
     }
 
     @Test
@@ -64,12 +65,12 @@ class GildedRoseTest {
     }
 
     @Test
-    void qualityDoesNotDecreasesBelowZero() {
-        GildedRoseExample example = new GildedRoseExample("Crap", 10, 0);
+    void qualityDoesNotDecreaseBelowMinQuality() {
+        GildedRoseExample example = new GildedRoseExample("Crap", 10, MIN_QUALITY);
 
         example.update();
 
-        assertThat(example.quality()).isEqualTo(0);
+        assertThat(example.quality()).isEqualTo(MIN_QUALITY);
     }
 
     @Test
@@ -103,12 +104,11 @@ class GildedRoseTest {
 
     @Test
     void qualityNeverIncreasesAboveMaxQuality() {
-        GildedRoseExample example = new GildedRoseExample("Aged Brie", 10, 50);
-        int initialQuality = example.quality();
+        GildedRoseExample example = new GildedRoseExample("Aged Brie", 10, MAX_QUALITY);
 
         example.update();
 
-        assertThat(example.quality()).isEqualTo(initialQuality);
+        assertThat(example.quality()).isEqualTo(MAX_QUALITY);
     }
 
     @Test
