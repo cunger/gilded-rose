@@ -27,26 +27,28 @@ class GildedRose {
         for (int i = 0; i < items.length; i++) {
             final Item item = items[i];
 
+            int qualityChange = isConjured(item) ? 2 * QUALITY_CHANGE : QUALITY_CHANGE;
+
             if (!isAgedBrie(item) && !isBackstagePass(item)) {
                 if (item.quality > MIN_QUALITY) {
                     if (!isSulfuras(item)) {
-                        item.quality -= QUALITY_CHANGE;
+                        item.quality -= qualityChange;
                     }
                 }
             } else {
                 if (item.quality < MAX_QUALITY) {
-                    item.quality += QUALITY_CHANGE;
+                    item.quality += qualityChange;
 
                     if (isBackstagePass(item)) {
                         if (item.sellIn < 11) {
                             if (item.quality < MAX_QUALITY) {
-                                item.quality += QUALITY_CHANGE;
+                                item.quality += qualityChange;
                             }
                         }
 
                         if (item.sellIn < 6) {
                             if (item.quality < MAX_QUALITY) {
-                                item.quality += QUALITY_CHANGE;
+                                item.quality += qualityChange;
                             }
                         }
                     }
@@ -62,7 +64,7 @@ class GildedRose {
                     if (!isBackstagePass(item)) {
                         if (item.quality > MIN_QUALITY) {
                             if (!isSulfuras(item)) {
-                                item.quality -= QUALITY_CHANGE;
+                                item.quality -= qualityChange;
                             }
                         }
                     } else {
@@ -70,7 +72,7 @@ class GildedRose {
                     }
                 } else {
                     if (item.quality < MAX_QUALITY) {
-                        item.quality += QUALITY_CHANGE;
+                        item.quality += qualityChange;
                     }
                 }
             }
@@ -87,6 +89,10 @@ class GildedRose {
 
     private boolean isAgedBrie(Item item) {
         return match(item.name, "aged brie");
+    }
+
+    private boolean isConjured(Item item) {
+        return match(item.name, "conjured");
     }
 
     private boolean match(String name, String pattern) {
