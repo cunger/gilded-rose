@@ -25,54 +25,71 @@ class GildedRose {
 
     public void updateQuality() {
         for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > MIN_QUALITY) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - QUALITY_CHANGE;
+            final Item item = items[i];
+
+            if (!isAgedBrie(item) && !isBackstagePass(item)) {
+                if (item.quality > MIN_QUALITY) {
+                    if (!isSulfuras(item)) {
+                        item.quality -= QUALITY_CHANGE;
                     }
                 }
             } else {
-                if (items[i].quality < MAX_QUALITY) {
-                    items[i].quality = items[i].quality + QUALITY_CHANGE;
+                if (item.quality < MAX_QUALITY) {
+                    item.quality += QUALITY_CHANGE;
 
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < MAX_QUALITY) {
-                                items[i].quality = items[i].quality + QUALITY_CHANGE;
+                    if (isBackstagePass(item)) {
+                        if (item.sellIn < 11) {
+                            if (item.quality < MAX_QUALITY) {
+                                item.quality += QUALITY_CHANGE;
                             }
                         }
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < MAX_QUALITY) {
-                                items[i].quality = items[i].quality + QUALITY_CHANGE;
+                        if (item.sellIn < 6) {
+                            if (item.quality < MAX_QUALITY) {
+                                item.quality += QUALITY_CHANGE;
                             }
                         }
                     }
                 }
             }
 
-            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                items[i].sellIn = items[i].sellIn - 1;
+            if (!isSulfuras(item)) {
+                item.sellIn -= 1;
             }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals("Aged Brie")) {
-                    if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].quality > MIN_QUALITY) {
-                            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - QUALITY_CHANGE;
+            if (item.sellIn < 0) {
+                if (!isAgedBrie(item)) {
+                    if (!isBackstagePass(item)) {
+                        if (item.quality > MIN_QUALITY) {
+                            if (!isSulfuras(item)) {
+                                item.quality -= QUALITY_CHANGE;
                             }
                         }
                     } else {
-                        items[i].quality = items[i].quality - items[i].quality;
+                        item.quality -= item.quality;
                     }
                 } else {
-                    if (items[i].quality < MAX_QUALITY) {
-                        items[i].quality = items[i].quality + QUALITY_CHANGE;
+                    if (item.quality < MAX_QUALITY) {
+                        item.quality += QUALITY_CHANGE;
                     }
                 }
             }
         }
+    }
+
+    private boolean isSulfuras(Item item) {
+        return match(item.name, "sulfuras");
+    }
+
+    private boolean isBackstagePass(Item item) {
+        return match(item.name, "backstage pass");
+    }
+
+    private boolean isAgedBrie(Item item) {
+        return match(item.name, "aged brie");
+    }
+
+    private boolean match(String name, String pattern) {
+        return name.toLowerCase().startsWith(pattern);
     }
 }
