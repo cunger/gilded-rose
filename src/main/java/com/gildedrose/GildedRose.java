@@ -2,8 +2,9 @@ package com.gildedrose;
 
 class GildedRose {
 
-    public static final int MIN_QUALITY = 0;
-    public static final int MAX_QUALITY = 50;
+    static final int MIN_QUALITY = 0;
+    static final int MAX_QUALITY = 50;
+    static final int QUALITY_CHANGE = 1;
 
     Item[] items;
 
@@ -28,23 +29,23 @@ class GildedRose {
                     && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                 if (items[i].quality > MIN_QUALITY) {
                     if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
+                        items[i].quality = items[i].quality - QUALITY_CHANGE;
                     }
                 }
             } else {
                 if (items[i].quality < MAX_QUALITY) {
-                    items[i].quality = items[i].quality + 1;
+                    items[i].quality = items[i].quality + QUALITY_CHANGE;
 
                     if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         if (items[i].sellIn < 11) {
                             if (items[i].quality < MAX_QUALITY) {
-                                items[i].quality = items[i].quality + 1;
+                                items[i].quality = items[i].quality + QUALITY_CHANGE;
                             }
                         }
 
                         if (items[i].sellIn < 6) {
                             if (items[i].quality < MAX_QUALITY) {
-                                items[i].quality = items[i].quality + 1;
+                                items[i].quality = items[i].quality + QUALITY_CHANGE;
                             }
                         }
                     }
@@ -60,7 +61,7 @@ class GildedRose {
                     if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
                         if (items[i].quality > MIN_QUALITY) {
                             if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - 1;
+                                items[i].quality = items[i].quality - QUALITY_CHANGE;
                             }
                         }
                     } else {
@@ -68,7 +69,7 @@ class GildedRose {
                     }
                 } else {
                     if (items[i].quality < MAX_QUALITY) {
-                        items[i].quality = items[i].quality + 1;
+                        items[i].quality = items[i].quality + QUALITY_CHANGE;
                     }
                 }
             }

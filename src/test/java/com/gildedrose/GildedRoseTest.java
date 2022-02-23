@@ -2,8 +2,7 @@ package com.gildedrose;
 
 import org.junit.jupiter.api.Test;
 
-import static com.gildedrose.GildedRose.MAX_QUALITY;
-import static com.gildedrose.GildedRose.MIN_QUALITY;
+import static com.gildedrose.GildedRose.*;
 import static org.assertj.core.api.Assertions.*;
 
 class GildedRoseTest {
@@ -51,17 +50,12 @@ class GildedRoseTest {
 
     @Test
     void normalQualityDecreasesTwiceAsFastOnceSellDateHasPassed() {
-        GildedRoseExample example = new GildedRoseExample("Elixir of the Mongoose", 1, 20);
+        GildedRoseExample example = new GildedRoseExample("Elixir of the Mongoose", 0, 20);
         int initialQuality = example.quality();
 
         example.update();
 
-        int nextQuality = example.quality();
-        int qualityDifference = initialQuality - nextQuality;
-
-        example.update();
-
-        assertThat(example.quality()).isEqualTo(nextQuality - 2 * qualityDifference);
+        assertThat(example.quality()).isEqualTo(initialQuality - 2 * QUALITY_CHANGE);
     }
 
     @Test
@@ -85,11 +79,22 @@ class GildedRoseTest {
 
     @Test
     void conjuredQualityDecreasesTwiceAsFastAsNormalItems() {
-        // "Conjured Mana Cake", 3, 6
+        GildedRoseExample example = new GildedRoseExample("Conjured Mana Cake", 1, 6);
+        int initialQuality = example.quality();
 
-        // Test:
-        // before sell date has passed
-        // after sell date has passed
+        // Before sell date has passed:
+
+        example.update();
+
+        assertThat(example.quality()).isEqualTo(initialQuality - 2 * QUALITY_CHANGE);
+
+        // After sell date has passed:
+
+        int currentQuality = example.quality();
+
+        example.update();
+
+        assertThat(example.quality()).isEqualTo(currentQuality - 4 * QUALITY_CHANGE);
     }
 
     @Test
@@ -128,7 +133,7 @@ class GildedRoseTest {
 
         example.update();
 
-        assertThat(example.quality()).isEqualTo(initialQuality + 2);
+        assertThat(example.quality()).isEqualTo(initialQuality + 2 * QUALITY_CHANGE);
     }
 
     @Test
@@ -138,7 +143,7 @@ class GildedRoseTest {
 
         example.update();
 
-        assertThat(example.quality()).isEqualTo(initialQuality + 3);
+        assertThat(example.quality()).isEqualTo(initialQuality + 3 * QUALITY_CHANGE);
     }
 
     @Test
