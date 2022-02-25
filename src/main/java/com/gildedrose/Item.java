@@ -19,6 +19,10 @@ public class Item {
         return this.name + ", " + this.sellIn + ", " + this.quality;
     }
 
+   public static boolean isExpired(Item item) {
+        return item.sellIn < 0;
+   }
+
    public static boolean isSulfuras(Item item) {
        return match(item.name, "sulfuras");
    }
